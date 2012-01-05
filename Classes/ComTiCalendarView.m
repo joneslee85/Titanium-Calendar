@@ -15,11 +15,11 @@
 
 @implementation ComTiCalendarView
 
-@synthesize events, eventsSelectedCallback;
+@synthesize events, eventsSelectedFunction;
 
 -(void)dealloc {
 	RELEASE_TO_NIL(cal); 
-	RELEASE_TO_NIL(eventsSelectedCallback);
+	RELEASE_TO_NIL(eventsSelectedFunction);
 	RELEASE_TO_NIL(events);
 	[super dealloc];
 }
@@ -84,8 +84,8 @@
 {
 	ENSURE_SINGLE_ARG(args,KrollFunction);
 	id _ev = args; 
-	RELEASE_TO_NIL(eventsSelectedCallback);
-	eventsSelectedCallback = [_ev retain];
+	RELEASE_TO_NIL(eventsSelectedFunction);
+	eventsSelectedFunction = [_ev retain];
 }
  
  
@@ -117,7 +117,7 @@
 
 - (void)selectDateChanged:(CFGregorianDate)selectDate
 {
-	if (eventsSelectedCallback) {
+	if (eventsSelectedFunction) {
 		NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
 		dateFormatter.dateFormat = @"yyyy-MM-dd 12:00:00";	
 		NSDate *date = [dateFormatter dateFromString:[NSString stringWithFormat: @"%d-%d-%d", 
@@ -125,7 +125,7 @@
 		
 		NSArray *tmpDates = [self.events objectForKey: date];
 		NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys: tmpDates, @"events", nil];
-		[self.proxy _fireEventToListener:@"eventsSelected" withObject:event listener: eventsSelectedCallback thisObject: nil];
+		[self.proxy _fireEventToListener:@"eventsSelected" withObject:event listener: eventsSelectedFunction thisObject: nil];
 	}
 };
 
