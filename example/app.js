@@ -61,9 +61,9 @@ for (key in keys) {
 var foo = Calendar.createView({color:"lightgray", events: o,
     eventsSelected: function(e) 
     {
-      for (key in e.events) {
-        alert(e.events[key].title+" starts at "+e.events[key].startDate+" ends at "+e.events[key].endDate+" at the location "+e.events[key].location+" and has id of "+e.events[key].eventIdentifier);
-      }
+      //for (key in e.events) {
+      //  Ti.API.log(e.events[key].title+" starts at "+e.events[key].startDate+" ends at "+e.events[key].endDate+" at the location "+e.events[key].location+" and has id of "+e.events[key].eventIdentifier);
+      //}
     }
 });
 
