@@ -82,7 +82,7 @@
 
 -(void)setEventsSelected_:(id)args
 {
-	ENSURE_SINGLE_ARG(args,KrollCallback);
+	ENSURE_SINGLE_ARG(args,KrollFunction);
 	id _ev = args; 
 	RELEASE_TO_NIL(eventsSelectedCallback);
 	eventsSelectedCallback = [_ev retain];

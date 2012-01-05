@@ -12,11 +12,11 @@
 	NSMutableDictionary *events;
 @private
 	UIView *cal;
-	KrollCallback *eventsSelectedCallback;
+	KrollFunction *eventsSelectedCallback;
 }
 
 @property (nonatomic,readwrite,retain) NSMutableDictionary *events;
-@property (nonatomic,readwrite,assign) KrollCallback *eventsSelectedCallback;
+@property (nonatomic,readwrite,assign) KrollFunction *eventsSelectedCallback;
 
 
 -(NSDate *)dateWithNoTime:(NSDate *)dateTime;
