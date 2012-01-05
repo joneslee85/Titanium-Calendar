@@ -2,3 +2,6 @@ tmp
 bin
 build
 *.zip
+*DS_Store
+*swp
+ticalendar.xcodeproj*
