@@ -425,7 +425,6 @@ const int	weekFontSize=10;
 	x=touchPoint.x*7/width;
 	y=(touchPoint.y-headHeight)/itemHeight;
 	int monthday=x+y*7-weekday+1;
-    NSLog([NSString stringWithFormat:@"%d %d %d %d", x, y, monthday, monthDayCount]);
 
 	if(monthday>0 && monthday<monthDayCount+1)
 	{
@@ -435,12 +434,10 @@ const int	weekFontSize=10;
 		currentSelectDate.hour=0;
 		currentSelectDate.minute=0;
 		currentSelectDate.second=1;
-        /*
 		if ([self.calendarViewDelegate respondsToSelector:@selector(selectDateChanged:)]) {
-			[calendarViewDelegate selectDateChanged:currentSelectDate];
+			[self.calendarViewDelegate selectDateChanged:currentSelectDate];
 		}
 		[self setNeedsDisplay];
-         */
 	}
 }
 

@@ -20,7 +20,7 @@ var ev = Calendar.createItem({title:"Stefs Event", startDate: new Date(),
 
 // events are NOT saved, until you invoke the saveEvent on them. 
 // Until that point, they live solely in memory.
-var p = ev.saveEvent();
+//var p = ev.saveEvent();
 // Be sure to check the status for true/false on save.
 //Ti.API.info(p);
 
@@ -30,6 +30,7 @@ var startDate = new Date();
 startDate.setHours(startDate.getHours()-1);
 var endDate = new Date();
 endDate.setHours(endDate.getHours()+1);
+
 
 var o = Calendar.findEvents({ start: startDate, end: endDate });
 
@@ -67,6 +68,12 @@ var foo = Calendar.createView({color:"lightgray", events: o,
     }
 });
 
+foo.addEventListener('monthselected', function(e) {
+    Ti.API.log(e);
+});
+foo.addEventListener('dayselected', function(e) {
+    Ti.API.log(e);
+});
 // Display the Calendar Widget/View now.
 window.add(foo);
 window.open();

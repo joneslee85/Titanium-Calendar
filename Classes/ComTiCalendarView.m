@@ -124,10 +124,22 @@
 													  selectDate.year, selectDate.month, selectDate.day] ];
 		
 		NSArray *tmpDates = [self.events objectForKey: date];
-		NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys: tmpDates, @"events", nil];
-		[self.proxy _fireEventToListener:@"eventsSelected" withObject:event listener: eventsSelectedFunction thisObject: nil];
+		NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:
+                               [NSString stringWithFormat: @"%d", selectDate.year], @"year",
+                               [NSString stringWithFormat: @"%d", selectDate.month], @"month",
+                               [NSString stringWithFormat: @"%d", selectDate.day], @"day",
+                               nil];
+        [self.proxy fireEvent:@"dayselected" withObject:event];
 	}
 };
 
+- (void) beforeMonthChange:(TdCalendarView*) calendarView willto:(CFGregorianDate) currentMonth
+{
+    NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:
+                           [NSString stringWithFormat: @"%d", currentMonth.year], @"year",
+                           [NSString stringWithFormat: @"%d", currentMonth.month], @"month",
+                           nil];
+    [self.proxy fireEvent:@"monthselected" withObject:event];
+}
 
 @end
