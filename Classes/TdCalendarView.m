@@ -7,12 +7,12 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 
-const float headHeight=30;
-const float itemHeight=35;
-const float prevNextButtonSize=10;
-const float prevNextButtonSpaceWidth=15;
-const float prevNextButtonSpaceHeight=4;
-const float titleFontSize=15;
+const float headHeight=45;
+const float itemHeight=45;
+const float prevNextButtonSize=15;
+const float prevNextButtonSpaceWidth=20;
+const float prevNextButtonSpaceHeight=10;
+const float titleFontSize=20;
 const int	weekFontSize=10;
 
 @implementation TdCalendarView
@@ -78,22 +78,26 @@ const int	weekFontSize=10;
 -(void)drawPrevButton:(CGPoint)leftTop
 {
 	CGContextRef ctx=UIGraphicsGetCurrentContext();
-	CGContextSetGrayStrokeColor(ctx,0,1);
+	CGContextSetGrayStrokeColor(ctx,0.5,1);
+	//CGContextSetRGBFillColor (ctx, 0.5, 0, 0, 1);
 	CGContextMoveToPoint	(ctx,  0 + leftTop.x, prevNextButtonSize/2 + leftTop.y);
 	CGContextAddLineToPoint	(ctx, prevNextButtonSize + leftTop.x,  0 + leftTop.y);
 	CGContextAddLineToPoint	(ctx, prevNextButtonSize + leftTop.x,  prevNextButtonSize + leftTop.y);
 	CGContextAddLineToPoint	(ctx,  0 + leftTop.x,  prevNextButtonSize/2 + leftTop.y);
+	CGContextClosePath(ctx);
 	CGContextFillPath(ctx);
 }
 
 -(void)drawNextButton:(CGPoint)leftTop
 {
 	CGContextRef ctx=UIGraphicsGetCurrentContext();
-	CGContextSetGrayStrokeColor(ctx,0,1);
+	CGContextSetGrayStrokeColor(ctx,0.5,1);
+	//CGContextSetRGBFillColor (ctx, 0.5, 0, 0, 1);
 	CGContextMoveToPoint	(ctx,  0 + leftTop.x,  0 + leftTop.y);
 	CGContextAddLineToPoint	(ctx, prevNextButtonSize + leftTop.x,  prevNextButtonSize/2 + leftTop.y);
 	CGContextAddLineToPoint	(ctx,  0 + leftTop.x,  prevNextButtonSize + leftTop.y);
 	CGContextAddLineToPoint	(ctx,  0 + leftTop.x,  0 + leftTop.y);
+	CGContextClosePath(ctx);
 	CGContextFillPath(ctx);
 }
 
@@ -116,25 +120,26 @@ const int	weekFontSize=10;
 							   currentMonthDate.year];
 	// all this, jst so we can horizontally center the month at the top of the widget.
 	int fontsize=[UIFont buttonFontSize];
-    UIFont   *font    = [UIFont systemFontOfSize:titleFontSize];
+    UIFont *font = [UIFont boldSystemFontOfSize:titleFontSize];
+
 	int textWidth = [title_Month sizeWithFont:font forWidth:width lineBreakMode:UILineBreakModeWordWrap].width;
 
-	CGPoint  location = CGPointMake((width-textWidth)/2, 0);
+	CGPoint  location = CGPointMake((width-textWidth)/2, 6);
     [title_Month drawAtPoint:location withFont:font];
 	[title_Month release];
 		
 	UIFont *weekfont=[UIFont boldSystemFontOfSize:weekFontSize];
 	
 	[[UIColor redColor] set];
-	[@"Su" drawAtPoint:CGPointMake(s_width*0+12,fontsize) withFont:weekfont];
+	[@"Sun" drawAtPoint:CGPointMake(s_width*0+12,fontsize+13) withFont:weekfont];
 	[[UIColor blackColor] set];
-	[@"M" drawAtPoint:CGPointMake(s_width*1+13,fontsize) withFont:weekfont];
-	[@"Tu" drawAtPoint:CGPointMake(s_width*2+12,fontsize) withFont:weekfont];
-	[@"W" drawAtPoint:CGPointMake(s_width*3+13,fontsize) withFont:weekfont];
-	[@"Th" drawAtPoint:CGPointMake(s_width*4+12,fontsize) withFont:weekfont];
-	[@"F" drawAtPoint:CGPointMake(s_width*5+13,fontsize) withFont:weekfont];
+	[@"Mon" drawAtPoint:CGPointMake(s_width*1+13,fontsize+13) withFont:weekfont];
+	[@"Tue" drawAtPoint:CGPointMake(s_width*2+12,fontsize+13) withFont:weekfont];
+	[@"Wed" drawAtPoint:CGPointMake(s_width*3+13,fontsize+13) withFont:weekfont];
+	[@"Thu" drawAtPoint:CGPointMake(s_width*4+12,fontsize+13) withFont:weekfont];
+	[@"Fri" drawAtPoint:CGPointMake(s_width*5+13,fontsize+13) withFont:weekfont];
 	[[UIColor redColor] set];
-	[@"Sa" drawAtPoint:CGPointMake(s_width*6+12,fontsize) withFont:weekfont];
+	[@"Sat" drawAtPoint:CGPointMake(s_width*6+12,fontsize+13) withFont:weekfont];
 	
 	[[UIColor blackColor] set];
 	
