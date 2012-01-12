@@ -221,16 +221,6 @@ const float	dateFontSize=22;
 	CGGradientRelease(gradient);
 	CGColorSpaceRelease(colorSpace);
 
-
-  // CGContextSetGrayStrokeColor(ctx,0,1);
-  // CGContextMoveToPoint  (ctx,0,headHeight);
-  // CGContextAddLineToPoint  (ctx,0,tabHeight);
-  // CGContextStrokePath    (ctx);
-  // CGContextMoveToPoint  (ctx,width,headHeight);
-  // CGContextAddLineToPoint  (ctx,width,tabHeight);
-  // CGContextStrokePath    (ctx);
-
-
 	CGColorRef lineWhite = [UIColor colorWithRed:237.00/255.00 green:236.00/255.00 
 	    blue:239.00/255.00 alpha:1.0].CGColor; 
 	CGColorRef lineGray = [UIColor colorWithRed:161.00/255.00 green:164.00/255.00 
@@ -239,37 +229,28 @@ const float	dateFontSize=22;
   for(int i=1;i<7;i++){
     CGContextSetStrokeColorWithColor(ctx, lineWhite);
     // Use a hackist -0.5 to make the width of the path 1px
-    CGContextMoveToPoint(ctx, i*s_width - 1.5, headHeight);
-    CGContextAddLineToPoint(ctx, i*s_width - 1.5,tabHeight);
+    CGContextMoveToPoint(ctx, i*s_width-1.5, headHeight);
+    CGContextAddLineToPoint(ctx, i*s_width-1.5, tabHeight);
     CGContextStrokePath(ctx);
   }
-
-  // CGContextSetGrayStrokeColor(ctx,0.3,1);
-  // CGContextMoveToPoint(ctx, 45.50f, headHeight);
-  // CGContextAddLineToPoint( ctx, 45.50f, tabHeight);
-  // CGContextStrokePath(ctx);
-  //   // 
-  //   CGContextMoveToPoint(ctx, 91.50f, headHeight);
-  //   CGContextAddLineToPoint( ctx, 91.50f, tabHeight);
-  //   CGContextStrokePath(ctx);
   
   for(int i=0;i<row_Count+1;i++){
-      CGContextSetStrokeColorWithColor(ctx, lineGray);
-      CGContextMoveToPoint(ctx, 0, i*itemHeight+headHeight-0.5);
-      CGContextAddLineToPoint( ctx, width,i*itemHeight+headHeight-0.5);
-      CGContextStrokePath(ctx);
+    CGContextSetStrokeColorWithColor(ctx, lineGray);
+    CGContextMoveToPoint(ctx, 0, i*itemHeight+headHeight-0.5);
+    CGContextAddLineToPoint(ctx, width, i*itemHeight+headHeight-0.5);
+    CGContextStrokePath(ctx);
       
-      CGContextSetStrokeColorWithColor(ctx, lineWhite);
-      CGContextMoveToPoint(ctx, 0, i*itemHeight+headHeight + 0.5);
-      CGContextAddLineToPoint( ctx, width,i*itemHeight+headHeight + 0.5);
-      CGContextStrokePath(ctx);
+    CGContextSetStrokeColorWithColor(ctx, lineWhite);
+    CGContextMoveToPoint(ctx, 0, i*itemHeight+headHeight+0.5);
+    CGContextAddLineToPoint(ctx, width, i*itemHeight+headHeight+0.5);
+    CGContextStrokePath(ctx);
   }
   for(int i=1;i<7;i++){
-      CGContextSetStrokeColorWithColor(ctx, lineGray);
-      CGContextMoveToPoint(ctx, i*s_width-0.5, headHeight);
-      CGContextAddLineToPoint( ctx, i*s_width-0.5,tabHeight);
-      CGContextStrokePath(ctx);
-    }
+    CGContextSetStrokeColorWithColor(ctx, lineGray);
+    CGContextMoveToPoint(ctx, i*s_width-0.5, headHeight);
+    CGContextAddLineToPoint(ctx, i*s_width-0.5, tabHeight);
+    CGContextStrokePath(ctx);
+  }
 }
 
 
