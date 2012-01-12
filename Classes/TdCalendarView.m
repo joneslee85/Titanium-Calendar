@@ -104,6 +104,41 @@ const float	dateFontSize=22;
 
 
 -(void)drawTopGradientBar{
+
+	// Replace contents of drawRect with the following:
+	CGContextRef ctx = UIGraphicsGetCurrentContext();
+	 
+	CGColorRef whiteColor = [UIColor colorWithRed:1.0 green:1.0 
+	    blue:1.0 alpha:1.0].CGColor; 
+	CGColorRef lightGrayColor = [UIColor colorWithRed:230.0/255.0 green:230.0/255.0 
+	    blue:230.0/255.0 alpha:1.0].CGColor;
+	 
+	// Draw a gradient bar
+	int width=self.frame.size.width;
+	int height=45;
+
+	CGRect paperRect = CGRectMake (0, 0, width, height);
+
+	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+	CGFloat locations[] = { 0.0, 1.0 };
+	NSArray *colors = [NSArray arrayWithObjects:(id)whiteColor, (id)lightGrayColor, nil];
+	CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, 
+         (CFArrayRef) colors, locations);
+ 
+  CGPoint startPoint = CGPointMake(CGRectGetMidX(paperRect), CGRectGetMinY(paperRect));
+	CGPoint endPoint = CGPointMake(CGRectGetMidX(paperRect), CGRectGetMaxY(paperRect));
+	 
+	CGContextSaveGState(ctx);
+	CGContextAddRect(ctx, paperRect);
+	CGContextClip(ctx);
+	
+	CGContextDrawLinearGradient(ctx, gradient, startPoint, endPoint, 0);
+	CGContextRestoreGState(ctx);
+ 
+	CGGradientRelease(gradient);
+	CGColorSpaceRelease(colorSpace);
+
+	// Add Title and Arrows
 	[self drawPrevButton:CGPointMake(prevNextButtonSpaceWidth,prevNextButtonSpaceHeight)];
 	[self drawNextButton:CGPointMake(self.frame.size.width-prevNextButtonSpaceWidth-prevNextButtonSize,prevNextButtonSpaceHeight)];
 }
@@ -344,24 +379,6 @@ const float	dateFontSize=22;
 		CGContextAddLineToPoint(ctx, x*swidth+swidth+2, y*itemHeight+headHeight);
 		CGContextAddLineToPoint(ctx, x*swidth+swidth+2, y*itemHeight+headHeight+itemHeight);
 		CGContextAddLineToPoint(ctx, x*swidth+1, y*itemHeight+headHeight+itemHeight);
-		// CGContextDrawLinearGradient
-
-
-// 		CGColorSpaceRef myColorspace=CGColorSpaceCreateDeviceRGB();
-// size_t num_locations = 2;
-// CGFloat locations[2] = { 1.0, 0.0 };
-// CGFloat components[8] = { 0.0, 0.0, 0.0, 1.0,    1.0, 1.0, 1.0, 1.0 };
-
-// CGGradientRef myGradient = CGGradientCreateWithColorComponents(myColorspace, components, locations, num_locations);
-
-// CGPoint myStartPoint, myEndPoint;
-// myStartPoint.x = 0.0;
-// myStartPoint.y = 0.0;
-// myEndPoint.x = 0.0;
-// myEndPoint.y = 10.0;
-// CGContextDrawLinearGradient (context, myGradient, myStartPoint, myEndPoint, 0);
-
-
 		CGContextFillPath(ctx);
 
 		CGContextSetRGBFillColor(ctx, 1, 1, 1, 1); //today date font color
