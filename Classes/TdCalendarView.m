@@ -405,14 +405,23 @@ const float	dateFontSize=22;
 		y=day/7;
 		CGContextRef ctx=UIGraphicsGetCurrentContext();
 
-
-		CGContextSetRGBFillColor(ctx, 0.5, 0.7, 0.8, 1); //today grid bg color
+    CGColorRef darkGreyColor = [UIColor colorWithRed:141.0/255.00 green:127.0/255.00 
+        blue:119.0/255.00 alpha:1.0].CGColor;
+      
+		CGContextSetFillColorWithColor(ctx, darkGreyColor); //today grid bg color
 		CGContextMoveToPoint(ctx, x*swidth+1, y*itemHeight+headHeight);
 		CGContextAddLineToPoint(ctx, x*swidth+swidth+2, y*itemHeight+headHeight);
 		CGContextAddLineToPoint(ctx, x*swidth+swidth+2, y*itemHeight+headHeight+itemHeight);
 		CGContextAddLineToPoint(ctx, x*swidth+1, y*itemHeight+headHeight+itemHeight);
 		CGContextFillPath(ctx);
 
+    // CGRect strokeRect = CGRectInset(paperRect, 5.0, 5.0);
+    //  
+    //     CGContextSetStrokeColorWithColor(context, redColor);
+    //     CGContextSetLineWidth(context, 1.0);
+    //     CGContextStrokeRect(context, strokeRect);
+    
+    
 		CGContextSetRGBFillColor(ctx, 1, 1, 1, 1); //today date font color
 		UIFont *weekfont=[UIFont boldSystemFontOfSize:dateFontSize];
 		NSString *date=[[[NSString alloc] initWithFormat:@"%2d",today.day] autorelease];
@@ -455,16 +464,49 @@ const float	dateFontSize=22;
 		x=day%7;
 		y=day/7;
 		CGContextRef ctx=UIGraphicsGetCurrentContext();
-		
-		if(todayFlag==1)
-			CGContextSetRGBFillColor(ctx, 0, 0, 0.7, 1);
-		else
-			CGContextSetRGBFillColor(ctx, 0, 0, 1, 1);
-		CGContextMoveToPoint(ctx, x*swidth+1, y*itemHeight+headHeight);
-		CGContextAddLineToPoint(ctx, x*swidth+swidth+2, y*itemHeight+headHeight);
-		CGContextAddLineToPoint(ctx, x*swidth+swidth+2, y*itemHeight+headHeight+itemHeight);
-		CGContextAddLineToPoint(ctx, x*swidth+1, y*itemHeight+headHeight+itemHeight);
-		CGContextFillPath(ctx);	
+    
+    CGColorRef whiteColor = [UIColor colorWithRed:255.0 green:255.0 
+        blue:255.0 alpha:1.0].CGColor;
+    CGColorRef pinkColor = [UIColor colorWithRed:119.0/255.00 green:73.0/255.00 
+        blue:150.0/255.00 alpha:1.0].CGColor;
+
+    // Using Path to draw rectangle
+    // CGContextSetFillColorWithColor(ctx, pinkColor);
+    // CGContextMoveToPoint(ctx, x*swidth+1, y*itemHeight+headHeight);
+    // CGContextAddLineToPoint(ctx, x*swidth+swidth+2, y*itemHeight+headHeight);
+    // CGContextAddLineToPoint(ctx, x*swidth+swidth+2, y*itemHeight+headHeight+itemHeight);
+    // CGContextAddLineToPoint(ctx, x*swidth+1, y*itemHeight+headHeight+itemHeight);
+    // CGContextFillPath(ctx);  
+    
+    
+    //---- Drawing a rectangle using CGRectMake is much simpler ---
+    int tileWidth = 45;
+    int tileHeight = 45;
+    
+    //TODO: set tileWidth to 48 if the tile is the 7th row
+
+    CGRect tileRect = CGRectMake (x*swidth+1, y*itemHeight+headHeight, tileWidth, tileHeight);
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGFloat locations[] = { 0.0, 1.0 };
+    NSArray *colors = [NSArray arrayWithObjects:(id)pinkColor, (id)whiteColor, nil];
+    CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, 
+               (CFArrayRef) colors, locations);
+     
+    CGPoint startPoint = CGPointMake(CGRectGetMidX(tileRect), CGRectGetMinY(tileRect));
+    CGPoint endPoint = CGPointMake(CGRectGetMidX(tileRect), CGRectGetMaxY(tileRect));
+       
+    CGContextSaveGState(ctx);
+    CGContextAddRect(ctx, tileRect);
+    CGContextClip(ctx);
+      
+    CGContextDrawLinearGradient(ctx, gradient, startPoint, endPoint, 0);
+    CGContextRestoreGState(ctx);
+     
+    CGGradientRelease(gradient);
+    CGColorSpaceRelease(colorSpace);   
+    
+    //----
 		
 		if(todayFlag==1)
 		{
