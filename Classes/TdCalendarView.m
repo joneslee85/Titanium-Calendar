@@ -154,6 +154,7 @@ const float	dateFontSize=22;
 	NSString *title_Month   = [[NSString alloc] initWithFormat:@"%@ %d",
 							   [months objectAtIndex: currentMonthDate.month],
 							   currentMonthDate.year];
+
 	// all this, jst so we can horizontally center the month at the top of the widget.
 	int fontsize=[UIFont buttonFontSize];
     UIFont *font = [UIFont boldSystemFontOfSize:titleFontSize];
@@ -161,9 +162,14 @@ const float	dateFontSize=22;
 	int textWidth = [title_Month sizeWithFont:font forWidth:width lineBreakMode:UILineBreakModeWordWrap].width;
 
 	CGPoint  location = CGPointMake((width-textWidth)/2, 6);
-    [title_Month drawAtPoint:location withFont:font];
+	CGContextRef ctx = UIGraphicsGetCurrentContext();
+
+	CGContextSaveGState(ctx);
+	CGContextSetShadow(ctx, CGSizeMake(0.0f, 1.0f), 0.5f);
+	// CGContextClip(ctx);
+  [title_Month drawAtPoint:location withFont:font];
 	[title_Month release];
-		
+
 	UIFont *weekfont=[UIFont boldSystemFontOfSize:weekFontSize];
 	
 	[[UIColor blackColor] set];
@@ -176,9 +182,8 @@ const float	dateFontSize=22;
 	[@"Fri" drawAtPoint:CGPointMake(s_width*5+13,fontsize+13) withFont:weekfont];
 	[[UIColor blackColor] set];
 	[@"Sat" drawAtPoint:CGPointMake(s_width*6+12,fontsize+13) withFont:weekfont];
-	
 	[[UIColor blackColor] set];
-	
+	CGContextRestoreGState(ctx);
 }
 
 -(void)drawGridLines{
@@ -186,10 +191,36 @@ const float	dateFontSize=22;
 	CGContextRef ctx=UIGraphicsGetCurrentContext();
 	int width=self.frame.size.width;
 	int row_Count=([self getDayCountOfaMonth:currentMonthDate]+[self getMonthWeekday:currentMonthDate]-2)/7+1;
-
 	
 	int s_width=width/7;
 	int tabHeight=row_Count*itemHeight+headHeight;
+
+
+	CGColorRef lighterGray = [UIColor colorWithRed:227.00/255.00 green:226.00/255.00 
+	    blue:229.00/255.00 alpha:1.0].CGColor; 
+	CGColorRef lightGrayColor = [UIColor colorWithRed:200.0/255.0 green:200.0/205.0 
+	    blue:230.0/255.0 alpha:1.0].CGColor;
+	CGRect paperRect = CGRectMake (0, 45, width, tabHeight);
+
+	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+	CGFloat locations[] = { 0.0, 1.0 };
+	NSArray *colors = [NSArray arrayWithObjects:(id)lighterGray, (id)lightGrayColor, nil];
+	CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, 
+         (CFArrayRef) colors, locations);
+ 
+  CGPoint startPoint = CGPointMake(CGRectGetMidX(paperRect), CGRectGetMinY(paperRect));
+	CGPoint endPoint = CGPointMake(CGRectGetMidX(paperRect), CGRectGetMaxY(paperRect));
+	 
+	CGContextSaveGState(ctx);
+	CGContextAddRect(ctx, paperRect);
+	CGContextClip(ctx);
+	
+	CGContextDrawLinearGradient(ctx, gradient, startPoint, endPoint, 0);
+	CGContextRestoreGState(ctx);
+ 
+	CGGradientRelease(gradient);
+	CGColorSpaceRelease(colorSpace);
+
 
 	//CGContextSetGrayStrokeColor(ctx,0,1);
 	CGContextMoveToPoint	(ctx,0,headHeight);
@@ -277,6 +308,7 @@ const float	dateFontSize=22;
 		}
 			
 		CGContextSetRGBFillColor(ctx, 0, 0, 0, 1);
+
 	}
 }
 
